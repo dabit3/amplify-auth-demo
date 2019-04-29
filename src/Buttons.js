@@ -71,7 +71,6 @@ function Buttons(props) {
           <p style={{...styles.text}}>Check Authentication</p>
         </button>
         
-        <button onClick={() => Auth.federatedSignIn({provider: 'Google'})}>Open Google</button>
         <button
           onClick={props.OAuthSignIn}
         >Sign In</button>

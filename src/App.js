@@ -26,6 +26,7 @@ function App() {
     Hub.listen('auth', (data) => {
       const { payload } = data
       if (payload.event === 'signIn') {
+        console.log('payload: ', payload)
         setImmediate(() => dispatch({ type: 'setUser', user: payload.data }))
       }
     })
@@ -64,8 +65,10 @@ function App() {
 async function checkUser(dispatch) {
   try {
     const user = await Auth.currentAuthenticatedUser()
+    console.log('user: ', user)
     dispatch({ type: 'setUser', user })
   } catch (err) {
+    console.log('err: ', err)
     if (window.location.pathname === '/profile') {
       setTimeout(() => {
         dispatch({ type: 'loaded' })
