@@ -4,16 +4,7 @@ import './App.css'
 import { Auth } from 'aws-amplify'
 import { withOAuth } from 'aws-amplify-react'
 import { FaFacebook, FaGoogle, FaEnvelope } from 'react-icons/fa'
-import AmplifyWhite from './amplifywhite.png'
 import AmplifyOrange from './amplifyorange.png'
-
-function checkAuth() {
-  Auth.currentAuthenticatedUser()
-    .then(user => {
-      console.log("USER: ", user)
-    })
-    .catch(err => console.log(err));
-}
 
 function Buttons(props) {
   return (
@@ -39,26 +30,15 @@ function Buttons(props) {
           onClick={() => props.OAuthSignIn()}
         >
           <img
+            alt='Amplify'
             src={AmplifyOrange}
             style={styles.icon}
           />
           <p style={{...styles.text, ...styles.orangeText}}>Sign in with Hosted UI</p>
         </button>
-
-        <button
-          style={{ ...styles.button, ...styles.withAuthenticator }}
-          onClick={() => props.OAuthSignIn()}
-        >
-          <img
-            src={AmplifyWhite}
-            style={styles.icon}
-          />
-          <p style={{...styles.text}}>Use withAuthenticator</p>
-        </button>
-
         <button
           style={{ ...styles.button, ...styles.email }}
-          onClick={() => props.OAuthSignIn()}
+          onClick={() => props.updateFormState('email')}
         >
           <FaEnvelope color='white' />
           <p style={{...styles.text}}>Sign in with Email</p>

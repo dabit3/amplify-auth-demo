@@ -1,14 +1,17 @@
 import React from 'react'
 import AmplifyLogo from './amplifyorange.png'
 
-export default function Header() {
+export default function Header(props) {
   return (
     <div style={styles.container}>
-      <img
-        src={AmplifyLogo}
-        style={styles.image}
-      />
-      <p style={styles.header}>Amplify Auth Demo</p>
+      <div style={styles.headerContent} onClick={() => props.updateFormState('base')}>
+        <img
+          alt='Amplify'
+          src={AmplifyLogo}
+          style={styles.image}
+        />
+        <p style={styles.header}>Amplify Auth Demo</p>
+      </div>
     </div>
   )
 }
@@ -16,7 +19,6 @@ export default function Header() {
 const styles = {
   container: {
     padding: 20,
-    display: 'flex',
     position: 'fixed',
     top: 0,
     left: 0,
@@ -26,14 +28,19 @@ const styles = {
   },
   header: {
     margin: 0,
-    color: 'white',
     fontSize: 24,
     marginLeft: 9,
     fontWeight: '300',
     marginTop: -3,
-    color: 'rgb(255, 153, 0)'
+    color: 'rgb(255, 153, 0)',
+    cursor: 'pointer',
+  },
+  headerContent: {
+    cursor: 'pointer',
+    display: 'flex'
   },
   image: {
-    height: 22
+    height: 22,
+    cursor: 'pointer',
   }
 }

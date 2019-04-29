@@ -1,9 +1,4 @@
-import React from 'react'
-
 import { withAuthenticator } from 'aws-amplify-react'
+import App from './App'
 
-function appWithAuth() {
-  
-}
-
-export default useWithAuthenticator
+export default withAuthenticator(App)

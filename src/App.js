@@ -1,49 +1,64 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import './App.css'
 import Header from './Header'
 import Buttons from './Buttons'
-import { Hub } from 'aws-amplify'
+import Form from './Form'
 
-import { Auth } from 'aws-amplify'
+import { Hub, Auth } from 'aws-amplify'
 import { withOAuth } from 'aws-amplify-react'
 import { FaSignOutAlt } from 'react-icons/fa'
 
-function reducer (state, action) {
-  switch(action.type) {
-    case 'setUser':  
-      return { ...state, user: action.user, loading: false }
-    case 'loaded':
-      return { ...state, loading: false }
-  }
-}
-
-const initialState = { user: null, loading: true }
+const initialUserState = { user: null, loading: true }
 
 function App() {
-  const [userState, dispatch] = useReducer(reducer, initialState)
+  const [userState, dispatch] = useReducer(reducer, initialUserState)
+  const [formState, updateFormState] = useState('base')
+
   useEffect(() => {
-    if (!window.location.pathname.includes('/signedin')) {
-      checkUser(dispatch)
-    }
+    // set listener for auth events
     Hub.listen('auth', (data) => {
       const { payload } = data
       if (payload.event === 'signIn') {
         setImmediate(() => dispatch({ type: 'setUser', user: payload.data }))
         setImmediate(() => window.history.pushState({}, null, 'http://localhost:3000/'))
+        updateFormState('base')
+      }
+      // this listener is needed for form sign ups since the OAuth will redirect & reload
+      if (payload.event === 'signOut') {
+        setTimeout(() => dispatch({ type: 'setUser', user: null }), 350)
       }
     })
+    // we assume if the user has been redirected that we have signed them in & will wait for the Hub 'auth' event
+    if (!window.location.pathname.includes('/signedin')) {
+      checkUser(dispatch)
+    }
   }, [])
-  
+
+  // This renders the custom form
+  if (formState === 'email') {
+    return (
+      <div style={styles.appContainer}>
+        <Header updateFormState={updateFormState} />
+        <Form />
+      </div>
+      )
+  }
 
   return (
     <div style={styles.appContainer}>
-      <Header />
+      <Header updateFormState={updateFormState} />
       {
-        userState.loading && <p>Loading...</p>
+        userState.loading && (
+          <div style={styles.body}>
+            <p>Loading...</p>
+          </div>
+        )
       }
       {
         !userState.user && !userState.loading && (
-          <Buttons />
+          <Buttons
+            updateFormState={updateFormState}
+          />
         )
       }
       {
@@ -62,15 +77,20 @@ function App() {
           </div>
         )
       }
-      <div>
-        <p style={styles.footer}>To view the code for this app, click <a
-          href='https://aws-amplify.github.io/' target="_blank"
-        style={styles.anchor}>here.</a>. To learn more about AWS Amplify, click <a
-          href='https://aws-amplify.github.io/' target="_blank"
-        style={styles.anchor}>here.</a></p>
-      </div>
+      <Footer />
     </div>
   )
+}
+
+function reducer (state, action) {
+  switch(action.type) {
+    case 'setUser':  
+      return { ...state, user: action.user, loading: false }
+    case 'loaded':
+      return { ...state, loading: false }
+    default:
+      return state
+  }
 }
 
 async function checkUser(dispatch) {
@@ -88,6 +108,18 @@ function signOut() {
       console.log('signed out: ', data)
     })
     .catch(err => console.log(err));
+}
+
+function Footer () {
+  return (
+    <div>
+      <p style={styles.footer}>To view the code for this app, click <a
+        href='https://aws-amplify.github.io/' target="_blank" rel="noopener noreferrer"
+      style={styles.anchor}>here.</a>. To learn more about AWS Amplify, click <a
+        href='https://aws-amplify.github.io/' target="_blank" rel="noopener noreferrer"
+      style={styles.anchor}>here.</a></p>
+    </div>
+  )
 }
 
 const styles = {
