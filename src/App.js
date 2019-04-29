@@ -22,11 +22,12 @@ const initialState = { user: null, loading: true }
 function App() {
   const [userState, dispatch] = useReducer(reducer, initialState)
   useEffect(() => {
-    checkUser(dispatch)
+    if (!window.location.pathname.includes('/profile')) {
+      checkUser(dispatch)
+    }
     Hub.listen('auth', (data) => {
       const { payload } = data
       if (payload.event === 'signIn') {
-        console.log('payload: ', payload)
         setImmediate(() => dispatch({ type: 'setUser', user: payload.data }))
       }
     })
@@ -65,16 +66,9 @@ function App() {
 async function checkUser(dispatch) {
   try {
     const user = await Auth.currentAuthenticatedUser()
-    console.log('user: ', user)
     dispatch({ type: 'setUser', user })
   } catch (err) {
-    if (window.location.pathname.includes('/profile')) {
-      setTimeout(() => {
-        dispatch({ type: 'loaded' })
-      }, 500)
-    } else {
-      dispatch({ type: 'loaded' })
-    }
+    dispatch({ type: 'loaded' })
   }
 }
 
@@ -121,4 +115,4 @@ const styles = {
   },
 }
 
-export default withOAuth(App);
+export default withOAuth(App)
