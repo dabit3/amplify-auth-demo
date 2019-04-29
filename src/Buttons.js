@@ -3,7 +3,7 @@ import './App.css'
 
 import { Auth } from 'aws-amplify'
 import { withOAuth } from 'aws-amplify-react'
-import { FaFacebook, FaGoogle, FaEnvelope, FaUsersCog } from 'react-icons/fa'
+import { FaFacebook, FaGoogle, FaEnvelope } from 'react-icons/fa'
 import AmplifyWhite from './amplifywhite.png'
 import AmplifyOrange from './amplifyorange.png'
 
@@ -63,21 +63,6 @@ function Buttons(props) {
           <FaEnvelope color='white' />
           <p style={{...styles.text}}>Sign in with Email</p>
         </button>
-        <button
-          style={{ ...styles.button, ...styles.checkAuth }}
-          onClick={checkAuth}
-        >
-          <FaUsersCog color='white' />
-          <p style={{...styles.text}}>Check Authentication</p>
-        </button>
-        
-        <button
-          onClick={props.OAuthSignIn}
-        >Sign In</button>
-       
-        <button
-          onClick={checkAuth}
-        >Check Auth</button>
       </div>
     </div>
   );
@@ -85,7 +70,7 @@ function Buttons(props) {
 
 const styles = {
   container: {
-    height: '100vh',
+    height: '80vh',
     width: '100vw',
     display: 'flex',
     justifyContent: 'center',

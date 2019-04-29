@@ -22,13 +22,14 @@ const initialState = { user: null, loading: true }
 function App() {
   const [userState, dispatch] = useReducer(reducer, initialState)
   useEffect(() => {
-    if (!window.location.pathname.includes('/profile')) {
+    if (!window.location.pathname.includes('/signedin')) {
       checkUser(dispatch)
     }
     Hub.listen('auth', (data) => {
       const { payload } = data
       if (payload.event === 'signIn') {
         setImmediate(() => dispatch({ type: 'setUser', user: payload.data }))
+        setImmediate(() => window.history.pushState({}, null, 'http://localhost:3000/'))
       }
     })
   }, [])
@@ -47,8 +48,10 @@ function App() {
       }
       {
         userState.user && userState.user.signInUserSession && (
-          <h4>
-            Welcome {userState.user.signInUserSession.idToken.payload.email}
+          <div style={styles.body}>
+            <h4>
+              Welcome {userState.user.signInUserSession.idToken.payload.email}
+            </h4>
             <button
               style={{ ...styles.button, ...styles.signOut }}
               onClick={signOut}
@@ -56,9 +59,16 @@ function App() {
               <FaSignOutAlt color='white' />
               <p style={{...styles.text}}>Sign Out</p>
             </button>
-          </h4>
+          </div>
         )
       }
+      <div>
+        <p style={styles.footer}>To view the code for this app, click <a
+          href='https://aws-amplify.github.io/' target="_blank"
+        style={styles.anchor}>here.</a>. To learn more about AWS Amplify, click <a
+          href='https://aws-amplify.github.io/' target="_blank"
+        style={styles.anchor}>here.</a></p>
+      </div>
     </div>
   )
 }
@@ -83,7 +93,6 @@ function signOut() {
 const styles = {
   appContainer: {
     paddingTop: 85,
-    paddingLeft: 20
   },
   loading: {
     
@@ -113,6 +122,20 @@ const styles = {
   signOut: {
     backgroundColor: 'black'
   },
+  footer: {
+    fontWeight: '600',
+    padding: '0px 25px',
+    textAlign: 'right',
+    color: 'rgba(0, 0, 0, 0.6)'
+  },
+  anchor: {
+    color: 'rgb(255, 153, 0)',
+    textDecoration: 'none'
+  },
+  body: {
+    padding: '0px 30px',
+    height: '78vh'
+  }
 }
 
 export default withOAuth(App)
