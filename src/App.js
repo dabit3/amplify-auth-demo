@@ -68,8 +68,7 @@ async function checkUser(dispatch) {
     console.log('user: ', user)
     dispatch({ type: 'setUser', user })
   } catch (err) {
-    console.log('err: ', err)
-    if (window.location.pathname === '/profile') {
+    if (window.location.pathname.includes('/profile')) {
       setTimeout(() => {
         dispatch({ type: 'loaded' })
       }, 500)
