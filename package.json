@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aws-amplify": "^1.1.26",
+    "aws-amplify-react": "^2.3.6",
+    "glamor": "^2.20.40",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-icons": "^3.6.1",
     "react-scripts": "3.0.0"
   },
   "scripts": {
