@@ -116,7 +116,7 @@ function Footer () {
   return (
     <div>
       <p style={styles.footer}>To view the code for this app, click <a
-        href='https://aws-amplify.github.io/' target="_blank" rel="noopener noreferrer"
+        href='https://github.com/dabit3/amplify-auth-demo' target="_blank" rel="noopener noreferrer"
       style={styles.anchor}>here.</a>. To learn more about AWS Amplify, click <a
         href='https://aws-amplify.github.io/' target="_blank" rel="noopener noreferrer"
       style={styles.anchor}>here.</a></p>
