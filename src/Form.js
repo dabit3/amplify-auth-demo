@@ -18,9 +18,6 @@ function reducer(state, action) {
 }
 
 async function signUp({ username, password, email }, updateFormType) {
-  console.log('username ;', username)
-  console.log('password ;', password)
-  console.log('email ;', email)
   try {
     await Auth.signUp({
       username, password, attributes: { email }
@@ -38,7 +35,7 @@ async function confirmSignUp({ username, confirmationCode }, updateFormType) {
     console.log('confirm sign up success!')
     updateFormType('signIn')
   } catch (err) {
-    console.log('error signing up..')
+    console.log('error signing up..', err)
   }
 }
 
@@ -62,7 +59,6 @@ export default function Form() {
           <SignUp
             signUp={() => signUp(formState, updateFormType)}
             updateFormState={e => updateFormState({ type: 'updateFormState', e })}
-            updateFormType={updateFormType}
           />
         )
       case 'confirmSignUp':
@@ -70,7 +66,6 @@ export default function Form() {
           <ConfirmSignUp
             confirmSignUp={() => confirmSignUp(formState, updateFormType)}
             updateFormState={e => updateFormState({ type: 'updateFormState', e })}
-            updateFormType={updateFormType}
           />
         )
       case 'signIn':
@@ -78,7 +73,6 @@ export default function Form() {
           <SignIn
             signIn={() => signIn(formState)}
             updateFormState={e => updateFormState({ type: 'updateFormState', e })}
-            updateFormType={updateFormType}
           />
         )
       default:
@@ -93,7 +87,7 @@ export default function Form() {
         {renderForm(formState)}
       </div>
       {
-        formType !== 'signIn' && (
+        formType === 'signUp' && (
           <p style={styles.footer}>
             Already have an account? <span
               style={styles.anchor}
@@ -103,7 +97,7 @@ export default function Form() {
         )
       }
       {
-        formType !== 'signUp' && (
+        formType === 'signIn' && (
           <p style={styles.footer}>
             Need an account? <span
               style={styles.anchor}
