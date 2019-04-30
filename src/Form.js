@@ -40,10 +40,9 @@ async function confirmSignUp({ username, confirmationCode }, updateFormType) {
 }
 
 async function signIn({ username, password }) {
-  console.log('username:', username)
-  console.log('password: ', password)
   try {
     await Auth.signIn(username, password)
+    console.log('sign in success!')
   } catch (err) {
     console.log('error signing up..', err)
   }
