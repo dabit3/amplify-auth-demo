@@ -28,7 +28,7 @@ function App() {
         setTimeout(() => dispatch({ type: 'setUser', user: null }), 350)
       }
     })
-    // we assume if the user has been redirected that we have signed them in & will wait for the Hub 'auth' event
+    // we check for the current user unless there is a redirect to ?signedIn=true 
     if (!window.location.search.includes('?signedin=true')) {
       checkUser(dispatch)
     }
