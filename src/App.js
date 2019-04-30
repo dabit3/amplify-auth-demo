@@ -29,7 +29,7 @@ function App() {
       }
     })
     // we assume if the user has been redirected that we have signed them in & will wait for the Hub 'auth' event
-    if (!window.location.pathname.includes('/signedin')) {
+    if (!window.location.search.includes('?signedin=true')) {
       checkUser(dispatch)
     }
   }, [])
