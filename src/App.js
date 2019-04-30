@@ -96,8 +96,10 @@ function reducer (state, action) {
 async function checkUser(dispatch) {
   try {
     const user = await Auth.currentAuthenticatedUser()
+    console.log('user: ', user)
     dispatch({ type: 'setUser', user })
   } catch (err) {
+    console.log('err: ', err)
     dispatch({ type: 'loaded' })
   }
 }
