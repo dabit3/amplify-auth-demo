@@ -20,7 +20,7 @@ function App() {
       const { payload } = data
       if (payload.event === 'signIn') {
         setImmediate(() => dispatch({ type: 'setUser', user: payload.data }))
-        setImmediate(() => window.history.pushState({}, null, 'https://master.d234hqv4cc8d2c.amplifyapp.com/'))
+        setImmediate(() => window.history.pushState({}, null, 'https://www.amplifyauth.dev/'))
         updateFormState('base')
       }
       // this listener is needed for form sign ups since the OAuth will redirect & reload
