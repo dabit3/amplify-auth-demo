@@ -5,7 +5,6 @@ import Buttons from './Buttons'
 import Form from './Form'
 
 import { Hub, Auth } from 'aws-amplify'
-import { withOAuth } from 'aws-amplify-react'
 import { FaSignOutAlt } from 'react-icons/fa'
 
 const initialUserState = { user: null, loading: true }
@@ -172,4 +171,4 @@ const styles = {
   }
 }
 
-export default withOAuth(App)
+export default App

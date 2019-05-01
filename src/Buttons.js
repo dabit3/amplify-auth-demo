@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css'
 
 import { Auth } from 'aws-amplify'
-import { withOAuth } from 'aws-amplify-react'
 import { FaFacebook, FaGoogle, FaEnvelope } from 'react-icons/fa'
 import AmplifyOrange from './amplifyorange.png'
 
@@ -27,7 +26,7 @@ function Buttons(props) {
 
         <button
           style={{ ...styles.button, ...styles.hostedUI }}
-          onClick={() => props.OAuthSignIn()}
+          onClick={() => Auth.federatedSignIn()}
         >
           <img
             alt='Amplify'
@@ -111,4 +110,4 @@ const styles = {
   }
 }
 
-export default withOAuth(Buttons);
+export default Buttons
